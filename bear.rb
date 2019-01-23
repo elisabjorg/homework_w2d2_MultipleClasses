@@ -1,27 +1,23 @@
 class Bear
+  attr_accessor :name, :type
 
-  attr_reader :name, :type, :food,
-
-  def initialize(name, type, food)
+  def initialize(name,type)
     @name = name
     @type = type
-    @food = food
+    @food = []
   end
 
-
-  def take_fish(fish)
-    @food << fish
+  def roar
+    "Rooooar"
   end
 
-  def clear
-    @river.fish.clear()
+  def food_count
+    @food.size
   end
 
+  def take_fish_from_river(river)
+    fish = river.get_fish()
+    @food << fish if !fish.nil?
+  end
 
-  # def river_loses_fish(fish)
-  #   for food in river.fish()
-  #     take_fish(fish)
-  # end
-  #   river.clear().fish()
-  # end
 end

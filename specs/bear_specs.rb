@@ -1,38 +1,40 @@
-require("minitest/autorun")
-require("minitest/rg")
-require_relative("../bear")
-require_relative("../river")
-require_relative("../fish")
+require('minitest/autorun')
+require('minitest/rg')
+require_relative('../bear.rb')
+require_relative('../fish.rb')
+require_relative('../river.rb')
 
-
-class BearTest < MiniTest::Test
+class TestBear < Minitest::Test
 
   def setup
-    food = ["ducks", "nuts", "apple"]
-    @bear = Bear.new("Bobo", "snowbear", food)
-    @fish_1 = ("Steve")
-    @fish_2 = ("Phil")
-    @fish_3 = ("Freddy")
-    @river = ("Amazon")
+    @bear = Bear.new("Bobo","Snowbear")
+
+    @fish1 = Fish.new("Steve")
+    @fish2 = Fish.new("Paul")
+    @fish3 = Fish.new("George")
+
+    @river = River.new("Amazon", [@fish1,@fish2,@fish3])
   end
 
   def test_bear_name
-    assert_equal("Bobo", @bear.name())
+    assert_equal("Bobo", @bear.name)
   end
 
-  def test_take_fish_from_river
-    @bear.take_fish(@fish_1)
-    assert_equal(4, @bear.food().count())
+  def test_bear_has_empty_food_array
+    assert_equal(0,@bear.food_count)
   end
 
-  # def test_river_loses_fish
-  #   @bear.take_fish(@fish_1)
-  #   @bear.take_fish(@fish_2)
-  #   @bear.take_fish(@fish_3)
-  #   @river.clear().fish()
-  #   assert_equal(6, @bear.food().count())
-  #   assert_equal(0, @river.fish().count())
-  # end
+  def test_bear_can_take_fish_from_river
+    @bear.take_fish_from_river(@river)
+    assert_equal(1,@bear.food_count)
+    assert_equal(2,@river.number_of_fishes)
+  end
 
+  def test_bear_cant_take_fish_from_empty_river
+    river = River.new("Amazon", [])
+    @bear.take_fish_from_river(river)
+    assert_equal(0,@bear.food_count)
+    assert_equal(0,river.number_of_fishes)
+  end
 
 end
